@@ -108,7 +108,6 @@ DATABASES = {
         'NAME': 'event_management_final',
         'USER': 'postgres',
         'PASSWORD': '123456',
-        'HOST': 'localhost',
         'PORT': '5432',
     }
 }
