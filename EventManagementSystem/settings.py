@@ -51,7 +51,8 @@ REST_FRAMEWORK = {
 
 CORS_ORIGIN_ALLOW_ALL = False
 CORS_ORIGIN_WHITELIST = (
-    'http://localhost:5173',
+    # 'http://localhost:5173',
+    'https://phero-l2-event-management-system.onrender.com',
 )
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
