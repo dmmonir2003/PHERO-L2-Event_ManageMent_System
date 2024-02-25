@@ -1,4 +1,5 @@
 asgiref
+dj-database-url
 Django
 django-cors-headers
 django-filter
@@ -7,4 +8,4 @@ psycopg2-binary
 python-dotenv
 pytz
 sqlparse
-tzdata
+typing_extensions
