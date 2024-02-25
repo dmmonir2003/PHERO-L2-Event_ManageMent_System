@@ -1,10 +1,10 @@
-
 asgiref
 Django
 django-cors-headers
 django-filter
 djangorestframework
 psycopg2-binary
+python-dotenv
 pytz
 sqlparse
 tzdata
