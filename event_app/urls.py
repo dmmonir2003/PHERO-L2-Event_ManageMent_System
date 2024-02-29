@@ -2,6 +2,7 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from . import views
 
+
 router = DefaultRouter()
 router.register('create-service', views.CreateServiceViewSet,
                 basename='create-service')
@@ -30,5 +31,6 @@ router.register(r'recent-event', views.RecentEventViewSet,
 
 urlpatterns = [
     path('', include(router.urls)),
+
 
 ]

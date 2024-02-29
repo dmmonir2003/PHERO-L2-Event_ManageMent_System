@@ -8,6 +8,10 @@ from django_filters import FilterSet
 from rest_framework import status
 from rest_framework.viewsets import ViewSet
 
+# authentication
+from .permissions import IsAdminOrAuthenticatedAndIsAdmin
+from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework.permissions import IsAuthenticated, AllowAny
 
 import logging
 from django_filters.rest_framework import DjangoFilterBackend
@@ -18,6 +22,8 @@ logger = logging.getLogger(__name__)
 
 # categories get request
 class EventsCategoriesViewSet(viewsets.ModelViewSet):
+    # authentication_classes = [JWTAuthentication]
+    # permission_classes = [IsAuthenticated, IsAdminOrAuthenticatedAndIsAdmin]
     queryset = EventsCategories.objects.all()
     serializer_class = EventsCategoriesSerializer
     lookup_field = 'slug'
@@ -31,6 +37,9 @@ class AllServices(viewsets.ModelViewSet):
 
 
 class CreateServiceViewSet(ViewSet):
+    # authentication_classes = [JWTAuthentication]
+    # permission_classes = [IsAuthenticated, IsAdminOrAuthenticatedAndIsAdmin]
+
     def create(self, request):
         service_serializer = ServiceSerializer(data=request.data)
         if service_serializer.is_valid():
@@ -58,6 +67,8 @@ class ServiceListByCategoryAPIView(viewsets.ModelViewSet):
 
 
 class ServiceUpdateViewSet(viewsets.ModelViewSet):
+    # authentication_classes = [JWTAuthentication]
+    # permission_classes = [IsAuthenticated, IsAdminOrAuthenticatedAndIsAdmin]
     queryset = Service.objects.all()
     serializer_class = ServiceUpdateSerializer
 
@@ -85,6 +96,8 @@ class ServiceUpdateViewSet(viewsets.ModelViewSet):
 
 
 class ServiceDeleteViewSet(viewsets.ModelViewSet):
+    # authentication_classes = [JWTAuthentication]
+    # permission_classes = [IsAuthenticated, IsAdminOrAuthenticatedAndIsAdmin]
     queryset = Service.objects.all()
     serializer_class = ServiceSerializer
 
@@ -98,11 +111,15 @@ class ServiceDeleteViewSet(viewsets.ModelViewSet):
 
 
 class EventItemCreateViewSet(viewsets.ModelViewSet):
+    # authentication_classes = [JWTAuthentication]
+    # permission_classes = [IsAuthenticated, IsAdminOrAuthenticatedAndIsAdmin]
     queryset = EventItem.objects.all()
     serializer_class = EventItemSerializer
 
 
 class EventItemUpdateViewSet(viewsets.ModelViewSet):
+    # authentication_classes = [JWTAuthentication]
+    # permission_classes = [IsAuthenticated, IsAdminOrAuthenticatedAndIsAdmin]
     queryset = EventItem.objects.all()
     serializer_class = EventItemSerializer
 
@@ -113,6 +130,8 @@ class AllEventItemViewSet(viewsets.ModelViewSet):
 
 
 class EventItemDeleteViewSet(viewsets.ModelViewSet):
+    # authentication_classes = [JWTAuthentication]
+    # permission_classes = [IsAuthenticated, IsAdminOrAuthenticatedAndIsAdmin]
     queryset = EventItem.objects.all()
     serializer_class = EventItemSerializer
 
@@ -126,8 +145,28 @@ class EventItemDeleteViewSet(viewsets.ModelViewSet):
 
 
 class RecentEventViewSet(viewsets.ModelViewSet):
+    # permission_classes = [IsAuthenticated]
+    # authentication_classes = [JWTAuthentication]
     queryset = RecentEvents.objects.all()
     serializer_class = RecentEventsSerializer
+
+    # def get_permissions(self):
+    #     if self.action in ['list', 'retrieve']:
+    #         # Allow unauthenticated requests for listing and retrieving instances
+    #         return [AllowAny()]
+    #     else:
+    #         # Require authentication for all other actions
+    #         return [IsAuthenticated()]
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)

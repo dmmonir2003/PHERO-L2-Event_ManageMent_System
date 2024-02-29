@@ -33,8 +33,6 @@ class Service(models.Model):
         return self.title
 
 
-
-
 class EventItem(models.Model):
     item_id = models.AutoField(primary_key=True)
     item_image = models.URLField()
