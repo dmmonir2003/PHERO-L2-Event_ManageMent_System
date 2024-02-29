@@ -9,9 +9,9 @@ from rest_framework import status
 from rest_framework.viewsets import ViewSet
 
 # authentication
-from .permissions import IsAdminOrAuthenticatedAndIsAdmin
-from rest_framework_simplejwt.authentication import JWTAuthentication
-from rest_framework.permissions import IsAuthenticated, AllowAny
+# from .permissions import IsAdminOrAuthenticatedAndIsAdmin
+# from rest_framework_simplejwt.authentication import JWTAuthentication
+# from rest_framework.permissions import IsAuthenticated, AllowAny
 
 import logging
 from django_filters.rest_framework import DjangoFilterBackend
